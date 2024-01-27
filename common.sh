@@ -48,3 +48,10 @@ _create_release() {
     gh release create $TAG -R $ORG_NAME/$_package --notes "[CI] automatic release"
     gh release upload $TAG -R $ORG_NAME/$_package $suffix
 }
+
+_version_grep="\d+\.\d+\.\d+"
+
+_get_version_from_download_url() {
+    url=$(epm tool eget --get-real-url $_download_url)
+    echo $url | grep -oP '\d+\.\d+\.\d+' | head -n 1
+}
