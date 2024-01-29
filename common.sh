@@ -55,3 +55,11 @@ _get_version_from_download_url() {
     url=$(epm tool eget --get-real-url $_download_url)
     echo $url | grep -oP '\d+\.\d+\.\d+' | head -n 1
 }
+
+_check_version_from_github() {
+    _repo=$1
+    _suffix=$2
+    _version_grep=${3:-"\d+\.\d+\.\d+"}
+    url=$(epm tool eget --list --latest https://github.com/$_repo/releases "$_suffix")
+    echo $url | grep -oP $_version_grep | head -n 1
+}
