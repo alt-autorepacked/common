@@ -1,0 +1,35 @@
+on:
+  workflow_call:
+    inputs:
+      branch:
+        required: true
+        type: string
+      arch: 
+        required: true
+        type: string
+
+jobs:
+  check-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ inputs.arch }}
+
+      - name: Run the repack process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: "alt:${{ inputs.branch }}"
+          options: |
+            --platform linux/${{ inputs.arch }}
+            --volume ${{ github.workspace }}/:/workspace
+            --env GH_TOKEN=${{ github.token }}
+          run: |
+            cd /workspace
+            apt-get update && apt-get -y install eepm git github-cli rpm-build
+            epm update
+            ./repack.sh
