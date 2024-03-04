@@ -57,9 +57,17 @@ _get_version_from_download_url() {
 }
 
 _check_version_from_github() {
-    _repo=$1
-    _suffix=$2
+    _repo=${1-"$GITHUB_REPO"}
+    _suffix=${2-"$GITHUB_SUFFIX"}
     _version_grep=${3:-"\d+\.\d+\.\d+"}
     url=$(epm tool eget --list --latest https://github.com/$_repo/releases "$_suffix")
     echo $url | grep -oP $_version_grep | head -n 1
+}
+
+_download_from_github() {
+    _repo=${1:-"$GITHUB_REPO"}
+    _suffix=${2:-"$GITHUB_SUFFIX"}
+    url=$(epm tool eget --list --latest https://github.com/$_repo/releases "$_suffix")
+    real_download_url=$(epm tool eget --get-real-url $url)
+    epm -y repack $real_download_url
 }
