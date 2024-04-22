@@ -30,6 +30,6 @@ jobs:
             --env GH_TOKEN=${{ github.token }}
           run: |
             cd /workspace
-            apt-get update && apt-get -y install eepm git github-cli rpm-build
-            epm update
+            apt-get update && apt-get -y install git github-cli rpm-build curl
+            curl -sL https://eepm.ru/epm.sh | bash /dev/stdin ei
             ./repack.sh
