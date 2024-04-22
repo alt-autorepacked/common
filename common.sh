@@ -5,6 +5,11 @@
 ORG_NAME=alt-autorepacked
 BASE_REMOTE_URL=https://github.com/$ORG_NAME
 
+fatal() {
+    echo "ERROR: $@" 1>&2
+    exit 1
+}
+
 _get_suffix() {
     if [ -n "$ALT_BRANCH_ID" ]; then
         suffix=".$ALT_BRANCH_ID"
