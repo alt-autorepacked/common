@@ -71,3 +71,11 @@ _download_from_github() {
     real_download_url=$(epm tool eget --get-real-url $url)
     epm -y repack $real_download_url
 }
+
+_check_install() {
+    epm simulate ./*.rpm
+    res=$?
+    if [ $res -ne 0 ]; then
+        fatal "Install failed with exit status $res"
+    fi
+}
