@@ -23,7 +23,7 @@ jobs:
       - name: Run the repack process with Docker
         uses: addnab/docker-run-action@v3
         with:
-          image: "alt:${{ inputs.branch }}"
+          image: "registry.altlinux.org/alt/alt:${{ inputs.branch }}"
           options: |
             --platform linux/${{ inputs.arch }}
             --volume ${{ github.workspace }}/:/workspace
