@@ -33,11 +33,11 @@ jobs:
             apt-get update && apt-get -y install git github-cli rpm-build curl
 
             # temp fix            
-            repo=$(epm print info -r)
-            if [ $repo = "p11" ]; then
+            . /etc/os-release
+            if [ "$ALT_BRANCH_ID" = "p11" ]; then
               apt-get -y install eepm
             else
               curl -sL https://eepm.ru/epm.sh | bash /dev/stdin ei
             fi
-            
+
             ./repack.sh
